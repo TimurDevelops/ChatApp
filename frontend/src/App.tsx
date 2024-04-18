@@ -1,16 +1,28 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {transitions, positions, Provider as AlertProvider} from 'react-alert'
 
 import ChatApp from "./ChatApp";
+import AlertTemplate from "./components/alertTemplate";
 
-import './App.css';
+import "./App.css";
+
 
 const queryClient = new QueryClient();
+
+const alertOptions = {
+  position: positions.TOP_RIGHT,
+  timeout: 5000,
+  offset: '30px',
+  transition: transitions.FADE
+}
 
 const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ChatApp/>
+      <AlertProvider template={AlertTemplate} {...alertOptions}>
+        <ChatApp/>
+      </AlertProvider>
     </QueryClientProvider>
   );
 }

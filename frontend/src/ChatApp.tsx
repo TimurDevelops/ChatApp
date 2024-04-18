@@ -1,11 +1,13 @@
-import {useQuery, useMutation} from "@tanstack/react-query";
-import {Backdrop, Box, CircularProgress} from "@mui/material";
+import {useQuery} from "@tanstack/react-query";
+import {Backdrop, Box, CircularProgress, Grid} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 
 import ChatView from "./views/chatView/ChatView";
 
-import {addMessage, fetchMessages} from "./api/messages";
+import {fetchMessages} from "./api/messages";
 
-import './App.css';
+import "./App.css";
 
 
 const ChatApp = () => {
@@ -14,14 +16,6 @@ const ChatApp = () => {
     queryFn: () => fetchMessages()
   })
 
-  const {mutate: addTodoMutation} = useMutation({
-    mutationFn: addMessage
-  })
-
-  console.log(isLoading)
-  if (isLoading) {
-    return <div>Загрузка...</div>;
-  }
 
   if (error) {
     return <div>Произошла ошибка...</div>;
@@ -29,17 +23,23 @@ const ChatApp = () => {
 
   return (
     <>
-      <div>
-        <Backdrop
-          sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
-          open={isLoading}
-        >
+      <CssBaseline/>
+      <Box>
+        <Backdrop open={isLoading}>
           <CircularProgress color="inherit"/>
         </Backdrop>
-      </div>
-
-      <Box component="main">
-        <ChatView messages={messages || []}/>
+      </Box>
+      <Box sx={{bgcolor: "#262626"}}>
+        <Container maxWidth="xl" component="main">
+          <Grid
+            sx={{bgcolor: "#494848", height: "100vh", padding: "1em"}}
+            container
+            direction="column"
+            justifyContent="flex-end"
+          >
+            <ChatView messages={messages || []}/>
+          </Grid>
+        </Container>
       </Box>
     </>
   );

@@ -4,15 +4,15 @@ import MessageForm from "./MessageForm";
 import {Message} from "../../interfaces/Message";
 
 interface ChatViewProps {
-  messages: Message[]
+  messages: Message[],
 }
 
-const ChatView = (data: ChatViewProps) => {
+const ChatView = ({messages}: ChatViewProps) => {
   return (
-    <section>
-      <MessageList messages={data.messages}/>
+    <>
+      <MessageList messages={messages}/>
       <MessageForm/>
-    </section>
+    </>
   );
 }
 

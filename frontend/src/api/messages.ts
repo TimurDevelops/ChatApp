@@ -1,30 +1,29 @@
+import api from "./index";
 import {Message} from "../interfaces/Message";
 
-const messages: Message[] = [{
-  id: 1,
-  text: "First message"
-}, {
-  id: 2,
-  text: "Second message"
-}, {
-  id: 3,
-  text: "Third message"
-}, {
-  id: 4,
-  text: "Fourth message"
-}, {
-  id: 5,
-  text: "Fifth message"
-}];
-
 export const fetchMessages = async (): Promise<Message[]> => {
-  // TODO call the backend
-  await new Promise((resolve) => setTimeout(resolve, 1000*60));
-  return messages;
-};
+  const res = await api.get("/messages");
+  if (res.data.success === true) {
+    return res.data.messages;
+  } else {
+    throw Error("Не удалось получить сообщения")
+  }
+}
 
 export const addMessage = async (message: Pick<Message, "text">): Promise<Message> => {
-  // TODO call the backend
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
-  return message;
-};
+  const res = await api.post("/messages", message);
+  if (res.data.success === true) {
+    return res.data.messages;
+  } else {
+    throw Error("Не добавить сообщение")
+  }
+}
+
+export const deleteMessage = async (message: Message): Promise<Message> => {
+  const res = await api.delete("/messages", {data: message});
+  if (res.data.success === true) {
+    return res.data.messages;
+  } else {
+    throw Error("Не удалить сообщение")
+  }
+}

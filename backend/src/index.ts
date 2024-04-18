@@ -1,32 +1,21 @@
-import { createServer } from "node:http";
+import express from "express";
+import cors from "cors";
+import http from "http";
 
-const hostname = process.env.HOSTNAME || "127.0.0.1";
-const port = process.env.PORT || 3000;
+import messages from "./api/messages";
+import wsServer from "./services/wsServer";
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Hello World!");
+const PORT = process.env.PORT || 5000;
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+const listener = http.createServer(app);
+const wss = new wsServer()
+
+app.use("/messages", messages(wss));
+
+listener.listen(Number(PORT), () => {
+  console.log(`Sever started on port ${PORT}`);
 });
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
-
-// import express, { Request, Response } from "express";
-// import dotenv from "dotenv";
-//
-// dotenv.config();
-// const app = express();
-//
-// const PORT = process.env.PORT || 3000;
-//
-// app.get("/", (request: Request, response: Response) => {
-//   response.status(200).send("Hello World");
-// });
-//
-// app.listen(PORT, () => {
-//   console.log("Server running at PORT: ", PORT);
-// }).on("error", (error) => {
-//   throw new Error(error.message);
-// });
