@@ -4,8 +4,6 @@ import {transitions, positions, Provider as AlertProvider} from 'react-alert'
 import ChatApp from "./ChatApp";
 import AlertTemplate from "./components/alertTemplate";
 
-import "./App.css";
-
 
 const queryClient = new QueryClient();
 

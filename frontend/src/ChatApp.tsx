@@ -7,8 +7,6 @@ import ChatView from "./views/chatView/ChatView";
 
 import {fetchMessages} from "./api/messages";
 
-import "./App.css";
-
 
 const ChatApp = () => {
   const {data: messages, isLoading, error} = useQuery({
